@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 const Resumeupload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [value, setvalue] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -19,14 +20,17 @@ const Resumeupload = () => {
     }
   };
 
-  const handleClick = async () => {
-    if (!selectedFile) return;
+  const handleClick = async (endpoint) => {
+    if (!selectedFile){
+      alert('Please Upload your resume!');
+      return;
+    };
 
     const formData = new FormData();
     formData.append("file", selectedFile);
 
     try {
-      const res = await axios.post("http://localhost:5000/upload", formData, {
+      const res = await axios.post(`http://localhost:5000/${endpoint}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -35,8 +39,12 @@ const Resumeupload = () => {
       console.log("File uploaded successfully:", res.data);
     } catch (error) {
       console.error("Error uploading file:", error);
+      console.log(error);
     }
   };
+
+ 
+
 
   return (
     <div className="w-full flex flex-col items-center py-12 bg-gray-50 mt-28">
@@ -74,15 +82,22 @@ const Resumeupload = () => {
           </p>
         )}
       </div>
-      {selectedFile && (
+      <div className="flex justify-center items-center gap-20">
         <Button
           className="text-lg px-8 py-6 mt-12 cursor-pointer"
           size="lg"
-          onClick={handleClick}
+          onClick={()=>handleClick("uploads")}
         >
-          Get Started <ArrowRight className="ml-2 h-5 w-5" />
+          Start Your Interview <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
-      )}
+        <Button
+          className="text-lg px-8 py-6 mt-12 cursor-pointer"
+          size="lg"
+          onClick={()=>handleClick("ats")}
+        >
+          Know ATS Score <ArrowRight className="ml-2 h-5 w-5" />
+        </Button>
+      </div>
     </div>
   );
 };
