@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { StoreContext } from "../Context/Context";
+import { useNavigate } from "react-router-dom";
 
 const Resumeupload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [jobDescription, setJobDescription] = useState("");
   const [showJobDescription, setShowJobDescription] = useState(false);
-
+  const { resume, setResume, job, setJob } = useContext(StoreContext);
+  const navigate = useNavigate();
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
+    const resume = event.target.files[0];
+    if (resume) {
       setLoading(true);
       setTimeout(() => {
-        setSelectedFile(file);
+        setSelectedFile(resume);
         setLoading(false);
         setShowJobDescription(true);
       }, 2000); // Simulating file processing delay
@@ -34,18 +37,28 @@ const Resumeupload = () => {
     }
 
     const formData = new FormData();
-    formData.append("file", selectedFile);
+    formData.append("resume", selectedFile);
     formData.append("jobDescription", jobDescription);
+
     const url = import.meta.env.VITE_API_URL;
 
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
     try {
-      const res = await axios.post(url, formData, {
+      const res = await axios.post(`${url}/uplaod-resume`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      console.log("File uploaded successfully:", res.data);
+      console.log("File uploaded successfully:", res?.data?.resumeText);
+      if (res?.data?.resumeText) {
+        setResume(res?.data?.resumeText);
+        setJob(jobDescription);
+      }
+      navigate("/interview");
     } catch (error) {
       console.error("Error uploading file:", error);
       console.log(error);
