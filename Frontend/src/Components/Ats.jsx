@@ -6,7 +6,7 @@ import { CheckCircle, XCircle, AlertCircle, ExternalLink } from "lucide-react";
 
 const Ats = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto p-6 mt-10">
+    <div className="w-full max-w-5xl mx-auto p-6 mt-10 " id='ATS-Score'>
       <h1 className="text-4xl font-bold text-center mb-8 text-slate-800">ATS Score Analysis</h1>
       
       <Card className="w-full">

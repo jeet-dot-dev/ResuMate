@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 const Resumeupload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [value, setvalue] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [showJobDescription, setShowJobDescription] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -16,21 +17,29 @@ const Resumeupload = () => {
       setTimeout(() => {
         setSelectedFile(file);
         setLoading(false);
+        setShowJobDescription(true);
       }, 2000); // Simulating file processing delay
     }
   };
 
-  const handleClick = async (endpoint) => {
-    if (!selectedFile){
-      alert('Please Upload your resume!');
+  const handleClick = async () => {
+    if (!selectedFile) {
+      alert("Please Upload your resume!");
       return;
-    };
+    }
+
+    if (!jobDescription) {
+      alert("Please enter the job description!");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("jobDescription", jobDescription);
+    const url = import.meta.env.VITE_API_URL;
 
     try {
-      const res = await axios.post(`http://localhost:5000/${endpoint}`, formData, {
+      const res = await axios.post(`http://localhost:5000/uploads`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -43,11 +52,21 @@ const Resumeupload = () => {
     }
   };
 
- 
+  const Cancel = () => {
+    setShowJobDescription(false);
+    setSelectedFile(null);
+    setJobDescription("");
 
+    // Clear file input
+    const fileInput = document.getElementById("file-upload");
+    if (fileInput) fileInput.value = "";
+  };
 
   return (
-    <div className="w-full flex flex-col items-center py-12 bg-gray-50 mt-28">
+    <div
+      className="w-full flex flex-col items-center py-12 bg-gray-50 mt-28"
+      id="Resume-Upload"
+    >
       <h2 className="text-4xl font-bold text-gray-800 mb-8">
         Upload Your Resume
       </h2>
@@ -82,21 +101,37 @@ const Resumeupload = () => {
           </p>
         )}
       </div>
+      {/* Job Description Input */}
+      {showJobDescription && (
+        <div className="mt-6 w-[900px]">
+          <label className="block text-lg font-medium text-gray-700 mb-2">
+            Enter Job Description:
+          </label>
+          <textarea
+            className="w-full min-h-[150px] p-4 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+            placeholder="Describe the job role and responsibilities..."
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+          />
+        </div>
+      )}
       <div className="flex justify-center items-center gap-20">
         <Button
           className="text-lg px-8 py-6 mt-12 cursor-pointer"
           size="lg"
-          onClick={()=>handleClick("uploads")}
+          onClick={() => handleClick()}
         >
           Start Your Interview <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
-        <Button
-          className="text-lg px-8 py-6 mt-12 cursor-pointer"
-          size="lg"
-          onClick={()=>handleClick("ats")}
-        >
-          Know ATS Score <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
+        {showJobDescription && (
+          <Button
+            className="text-lg px-8 py-6 mt-12 cursor-pointer bg-red-700"
+            size="lg"
+            onClick={() => Cancel()}
+          >
+            Cancel
+          </Button>
+        )}
       </div>
     </div>
   );

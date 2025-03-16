@@ -3,7 +3,8 @@ import Navbar from './Components/Navbar'
 import Resumeupload from './Components/Resumeupload'
 import Ats from './Components/Ats'
 import HowToUseSection from './Components/HowToUseSection'
-import {Faq,Footer} from './Components/Faq'
+import ScrollToTopButton from './Components/ScrollToTopButton '
+
 
 const App = () => {
   return (
@@ -12,7 +13,7 @@ const App = () => {
       <Resumeupload />
       <Ats/>
       <HowToUseSection/>
-      
+      <ScrollToTopButton/>
     </div>
   )
 }

@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const HowToUseSection = () => {
   return (
-    <div className="w-full max-w-4xl mx-auto py-12 px-6">
+    <div className="w-full max-w-4xl mx-auto py-12 px-6" id="How-to-Use">
       <h2 className="text-4xl font-bold text-center mb-2 text-slate-800">
         How to Use
       </h2>
