@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Resumeupload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
+
   const [jobDescription, setJobDescription] = useState("");
   const [showJobDescription, setShowJobDescription] = useState(false);
   const { resume, setResume, job, setJob } = useContext(StoreContext);

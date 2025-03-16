@@ -6,6 +6,7 @@ import HowToUseSection from "./Components/HowToUseSection";
 import ScrollToTopButton from "./Components/ScrollToTopButton ";
 import { Route, Routes } from "react-router-dom";
 import Interview from "./Components/Interview";
+import InterviewSimulator from "./Components/Interview";
 
 const App = () => {
   return (
@@ -23,7 +24,7 @@ const App = () => {
             </>
           }
         />
-        <Route path="/interview" element={<Interview />} />
+        <Route path="/interview" element={<InterviewSimulator />} />
       </Routes>
     </div>
   );

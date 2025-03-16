@@ -1,40 +1,44 @@
 const path = require("path");
 const { audioDir } = require("../multer");
 const fs = require("fs");
-const { default: axios } = require("axios");
-const HanleSTT = async (req, res)=>{
-    try{
-        const { audioData } = req.body
-        const audioBuffer = Buffer.from(audioData.split(",")[1], "base64");
+const FormData = require("form-data"); // Import form-data explicitly
+const axios = require("axios");
 
-        const tempFileName = `stt-${Date.now()}.mp3`;
-        const tempFilePath = path.join(audioDir, tempFileName);
-        fs.writeFileSync(tempFilePath, audioBuffer);
+const HanleSTT = async (req, res) => {
+  try {
+    const { audioData } = req.body;
+    const audioBuffer = Buffer.from(audioData.split(",")[1], "base64");
 
-        const formData = new FormData();
-        formData.append("file", fs.createReadStream(tempFilePath));
-        formData.append("model_id", "scribe_v1");
+    const tempFileName = `stt-${Date.now()}.mp3`;
+    const tempFilePath = path.join(audioDir, tempFileName);
+    fs.writeFileSync(tempFilePath, audioBuffer);
 
-        const headers = { 
-            ...formData.getHeaders(),
-            "xi-api-key" :process.env.ELEVENLABS_API_KEY,
-        };
+    // Use FormData from 'form-data' package
+    const formData = new FormData();
+    formData.append("file", fs.createReadStream(tempFilePath));
+    formData.append("model_id", "scribe_v1");
 
-        const sttResponse = await axios.post(
-            "https://api.elevenlabs.io/v1/speech-to-text",
-            formData,
-            {headers}
-        )
-        fs.unlinkSync(tempFilePath);
-        res.json({
-            text: sttResponse.data.text
-        })
+    const headers = { 
+      ...formData.getHeaders(), // This will now work correctly
+      "xi-api-key": process.env.ELEVENLABS_API_KEY,
+    };
 
-    }catch(err){
-        res.status(500).json({
-            error: "Speech recognition failed: " + err.message
-        })
-    }
-}
+    const sttResponse = await axios.post(
+      "https://api.elevenlabs.io/v1/speech-to-text",
+      formData,
+      { headers }
+    );
 
-module.exports = HanleSTT
+    fs.unlinkSync(tempFilePath);
+    res.json({
+      text: sttResponse.data.text
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      error: "Speech recognition failed: " + err.message
+    });
+  }
+};
+
+module.exports = HanleSTT;

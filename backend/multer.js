@@ -4,15 +4,14 @@ const path = require("path")
 
 // configure directories
 const audioDir = path.join(__dirname, "audio")
-const uploadDir = path.join(__dirname, "upload")
-
+const uploadsDir = path.join(__dirname, "uploads") 
 if (!fs.existsSync(audioDir)) fs.mkdirSync(audioDir, { recursive: true });
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 // File upload configuration 
 
 const storage =multer.diskStorage({
-    destination: uploadDir,
+    destination: uploadsDir,
     filename: (req,file,cb) =>{
         cb(null, Date.now()+ '-' + file.originalname)
     },
@@ -31,8 +30,11 @@ const upload = multer({
     }
 })
 
+
+
+
 module.exports = {
     upload,
     audioDir,
-    uploadDir
+    uploadsDir
 }

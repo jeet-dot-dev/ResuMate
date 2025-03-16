@@ -8,7 +8,7 @@ const HanleSTT = require("../controller/HandleSTT");
 
 
 router.post('/uplaod-resume', upload.single('resume'), HandleUploadResume)
-//router.post('/interview',HandleGenQuestion)
-router.post('/interview',HandleGenQuestion, HandleTTS);
+router.post('/interview',HandleGenQuestion)
+router.post('/tts', HandleTTS);
 router.post('/stt', HanleSTT)
 module.exports = router;
