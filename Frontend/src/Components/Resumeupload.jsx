@@ -39,7 +39,7 @@ const Resumeupload = () => {
     const url = import.meta.env.VITE_API_URL;
 
     try {
-      const res = await axios.post(`http://localhost:5000/uploads`, formData, {
+      const res = await axios.post(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
