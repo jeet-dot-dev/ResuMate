@@ -9,7 +9,6 @@ const Navbar = () => {
       {/* Navigation Links */}
       <div className="col-span-8 gap-10 pr-32 flex justify-end space-x-10">
         <a  href="#Resume-Upload" className="text-white text-[1.2rem] hover:text-amber-500 transition">Resume Upload</a>
-        <a href="#ATS-Score" className="text-white text-[1.2rem] hover:text-amber-500 transition">ATS Score</a>
         <a  href="#How-to-Use"className="text-white text-[1.2rem] hover:text-amber-500 transition">How to Use</a>
         
       </div>

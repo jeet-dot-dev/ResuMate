@@ -18,7 +18,6 @@ const App = () => {
             <>
               <Navbar />
               <Resumeupload />
-              <Ats />
               <HowToUseSection />
               <ScrollToTopButton />
             </>
