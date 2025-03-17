@@ -19,7 +19,7 @@ const HowToUseSection = () => {
             <div className="w-full h-96 bg-slate-200 rounded-lg border border-slate-300 overflow-hidden">
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/watch?v=kHv1ivsFacc"
+                src="https://youtu.be/kHv1ivsFacc"
                 title="Tutorial Video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
