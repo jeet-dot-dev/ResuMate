@@ -94,7 +94,7 @@ Your tone should be professional, encouraging, and conversational throughout the
 
     const claudeResponse = await anthropic.messages.create({
       model: "claude-3-haiku-20240307",
-      max_tokens: 100, // Increased to allow for more detailed responses
+      max_tokens: 1000, // Increased to allow for more detailed responses
       system: systemPrompt,
       messages: messages,
     });
