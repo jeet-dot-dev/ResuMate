@@ -17,7 +17,7 @@ const HandleGenQuestion = async (req, res) => {
 
     const systemPrompt = `
     1. Introduction Phase:
-  Begin by asking the candidate to introduce themselves*
+ - Begin by asking the candidate to introduce themselves*
  - Follow up with questions about their educational background*
  - Transition to discussing their key technical skills*
 2. Experience Deep Dive:
