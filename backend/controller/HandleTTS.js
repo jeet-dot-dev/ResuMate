@@ -5,8 +5,6 @@ const { audioDir } = require("../multer");
 const HandleTTS = async (req, res) => {
   try {
     const text = req.body.text || "";
-    console.log("Sending text to TTS:", text);
-    console.log("API Key:", process.env.ELEVENLABS_API_KEY );
     const response = await axios.post(
       "https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL",
       {
