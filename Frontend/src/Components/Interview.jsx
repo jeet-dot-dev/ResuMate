@@ -9,11 +9,11 @@ import {
   CardTitle,
   CardDescription,
   CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/card";
+import { Button } from "@/Components/ui/button";
 import { Mic, X, LogOut, StopCircle, Pause, Play } from "lucide-react";
-import { Avatar } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { Avatar } from "@/Components/ui/avatar";
+import { Badge } from "@/Components/ui/badge";
 
 const InterviewSimulator = () => {
   const navigate = useNavigate();

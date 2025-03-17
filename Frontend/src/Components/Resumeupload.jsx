@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import { StoreContext } from "../Context/Context";
 import { useNavigate } from "react-router-dom";
 
