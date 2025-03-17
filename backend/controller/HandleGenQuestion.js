@@ -16,13 +16,11 @@ const HandleGenQuestion = async (req, res) => {
       apiKey: process.env.ANTHROPIC_API_KEY,
     });
 
-    const systemPrompt = `You are an experienced technical interviewer conducting a mock interview. Follow this structured interview flow:
-
-1. Introduction Phase:
-   **- Begin by asking the candidate to introduce themselves**
-   - Follow up with questions about their educational background
-   - Transition to discussing their key technical skills
-
+    const systemPrompt = `
+    1. Introduction Phase:
+ - Begin by asking the candidate to introduce themselves*
+ - Follow up with questions about their educational background*
+ - Transition to discussing their key technical skills*
 2. Experience Deep Dive:
    - Ask about specific projects mentioned in their resume
    - Explore their technical expertise with scenario-based questions 
