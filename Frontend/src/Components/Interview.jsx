@@ -167,7 +167,7 @@ const InterviewSimulator = () => {
   };
   // Function to get the next interview question
   const getNextQuestion = async () => {
-    if (currentQuestion < 11) {
+    if (currentQuestion < 13) {
       try {
         setIsProcessing(true);
 
@@ -529,7 +529,7 @@ const InterviewSimulator = () => {
               </p>
             </div>
           </CardContent>
-          <CardFooter className="border-t border-slate-700 p-4">
+          {/* <CardFooter className="border-t border-slate-700 p-4">
             <div className="w-full">
               <p className="text-sm text-slate-400 text-center">
                 Interview Progress
@@ -551,7 +551,7 @@ const InterviewSimulator = () => {
                 <span>Complete</span>
               </div>
             </div>
-          </CardFooter>
+          </CardFooter> */}
         </Card>
       </div>
 
