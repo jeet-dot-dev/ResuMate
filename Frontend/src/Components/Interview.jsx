@@ -141,6 +141,7 @@ const InterviewSimulator = () => {
         jobDescription: job,
         history: updatedHistory,
         userResponse: text, // Include the latest response explicitly
+        questionCount:currentQuestion,
       });
 
       const newQuestion = res.data.message || questions[currentQuestion];
