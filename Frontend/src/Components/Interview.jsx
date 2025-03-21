@@ -18,7 +18,7 @@ import { Badge } from "@/Components/ui/badge";
 const InterviewSimulator = () => {
   const navigate = useNavigate();
   const [isRecording, setIsRecording] = useState(false);
-  const { resume, setResume, job, setJob, url } = useContext(StoreContext);
+  const { resume, job, url } = useContext(StoreContext);
   const [audioUrl, setAudioUrl] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [userAudioUrl, setUserAudioUrl] = useState(null);
@@ -166,7 +166,7 @@ const InterviewSimulator = () => {
   };
   // Function to get the next interview question
   const getNextQuestion = async () => {
-    if (currentQuestion < questions.length) {
+    if (currentQuestion < 11) {
       try {
         setIsProcessing(true);
 
@@ -546,7 +546,7 @@ const InterviewSimulator = () => {
               </div>
               <div className="flex justify-between mt-2 text-xs text-slate-400">
                 <span>Start</span>
-                <span>{`Question ${currentQuestion}/${questions.length}`}</span>
+                <span>{`Question ${currentQuestion}/10`}</span>
                 <span>Complete</span>
               </div>
             </div>
