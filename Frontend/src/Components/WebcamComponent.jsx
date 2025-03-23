@@ -76,44 +76,38 @@ const WebcamComponent = ({ isRecording, onTabChange, onVisibilityChange }) => {
   }, [onTabChange, onVisibilityChange]);
 
   return (
-    <Card className="bg-slate-800 w-full border-slate-700 text-white overflow-hidden">
-      <CardContent className="p-4">
-        {cameraError ? (
-          <div className="bg-red-900/50 p-4 rounded text-center">
-            <p className="text-red-300">{cameraError}</p>
-          </div>
-        ) : (
-          <div className="relative ml-96">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className=" rounded-md"
-              style={{
-                width: "200px", // Fix size of video element
-                height: "160px",
-                transform: "scaleX(-1)", // Mirror effect
-              }}
-            />
-            
-            {/* {isRecording && (
-              <Badge className="absolute top-2 right-2 bg-red-600 animate-pulse">
-                REC
-              </Badge>
-            )} */}
+    <div className="flex justify-center items-center w-full h-full">
+      {cameraError ? (
+        <div className="bg-red-900/50 p-4 rounded text-center w-full">
+          <p className="text-red-300">{cameraError}</p>
+        </div>
+      ) : (
+        <div className="relative">
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="rounded-md"
+            style={{
+              width: "120px",
+              height: "160px",
+              transform: "scaleX(-1)", // Mirror effect
+            }}
+          />
+          
+          
 
-            {(!isTabActive || !isVisible) && (
-              <div className="absolute inset-0 bg-red-900/70 flex items-center justify-center">
-                <p className="text-white font-bold text-lg">
-                  {!isTabActive ? "Tab Switched!" : "Window Hidden!"}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+          {(!isTabActive || !isVisible) && (
+            <div className="absolute inset-0 bg-red-900/70 flex items-center justify-center">
+              <p className="text-white font-bold text-sm">
+                {!isTabActive ? "Tab Switched!" : "Window Hidden!"}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 

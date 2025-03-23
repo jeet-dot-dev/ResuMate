@@ -291,7 +291,7 @@ const InterviewSimulator = () => {
 
   // Function to get the next interview question
   const getNextQuestion = async () => {
-    if (currentQuestion < 13) {
+    if (currentQuestion < 15) {
       try {
         setIsProcessing(true);
 
@@ -427,157 +427,157 @@ const InterviewSimulator = () => {
     <div className="flex flex-col md:flex-row gap-6 h-screen bg-slate-900 p-6 text-white">
       {/* Left side - transcript and camera content */}
       <div className="w-full md:w-2/3 h-full flex flex-col space-y-4">
-        {/* Fixed webcam container with absolute height */}
-        <div className="relative bg-slate-800 rounded-lg border border-slate-700 overflow-hidden h-56">
-          <WebcamComponent
-            isRecording={videoRecording}
-            onTabChange={(status) => handleCheatingDetection(`tab_${status}`)}
-            onVisibilityChange={(status) =>
-              handleCheatingDetection(`visibility_${status}`)
-            }
-          />
+  {/* Fixed webcam container with proper positioning */}
+  <div className="relative bg-slate-800 rounded-lg border border-slate-700 overflow-hidden h-56 flex justify-center items-center">
+    <WebcamComponent
+      isRecording={videoRecording}
+      onTabChange={(status) => handleCheatingDetection(`tab_${status}`)}
+      onVisibilityChange={(status) =>
+        handleCheatingDetection(`visibility_${status}`)
+      }
+    />
 
-          {/* Recording indicator */}
-          {videoRecording && (
-            <div className="absolute bottom-2 left-2 flex items-center">
-              <div className="h-3 w-3 rounded-full bg-red-500 mr-2 animate-pulse"></div>
-              <span className="text-xs text-white font-medium">Recording</span>
-            </div>
-          )}
+    {/* Recording indicator */}
+    {videoRecording && (
+      <div className="absolute bottom-2 left-2 flex items-center">
+        <div className="h-3 w-3 rounded-full bg-red-500 mr-2 animate-pulse"></div>
+        <span className="text-xs text-white font-medium">Recording</span>
+      </div>
+    )}
+  </div>
+
+  {/* Transcript card */}
+  <Card className="flex-grow bg-slate-800 border-slate-700 text-white overflow-hidden">
+    <CardHeader className="border-b border-slate-700">
+      <div className="flex justify-between items-center">
+        <div>
+          <CardTitle className="text-2xl font-bold text-sky-400">
+            Interview Transcript
+          </CardTitle>
+          <CardDescription className="text-slate-400">
+            AI-Powered Interview Simulator
+          </CardDescription>
         </div>
-
-        {/* Transcript card */}
-        <Card className="flex-grow bg-slate-800 border-slate-700 text-white overflow-hidden">
-          <CardHeader className="border-b border-slate-700">
-            <div className="flex justify-between items-center">
-              <div>
-                <CardTitle className="text-2xl font-bold text-sky-400">
-                  Interview Transcript
-                </CardTitle>
-                <CardDescription className="text-slate-400">
-                  AI-Powered Interview Simulator
-                </CardDescription>
-              </div>
-              <div className="flex space-x-2">
-                <Button
-                  onClick={endInterview}
-                  variant="destructive"
-                  className="bg-red-600 hover:bg-red-700"
-                >
-                  <LogOut className="mr-2 h-4 w-4" /> End Interview
-                </Button>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="p-6 overflow-y-auto h-[calc(100%-8rem)]">
-            <div className="space-y-6">
-              {history.map((message, index) => (
-                <div
-                  key={index}
-                  className={`flex ${
+        <div className="flex space-x-2">
+          <Button
+            onClick={endInterview}
+            variant="destructive"
+            className="bg-red-600 hover:bg-red-700"
+          >
+            <LogOut className="mr-2 h-4 w-4" /> End Interview
+          </Button>
+        </div>
+      </div>
+    </CardHeader>
+    <CardContent className="p-6 overflow-y-auto h-[calc(100%-8rem)]">
+      <div className="space-y-6">
+        {history.map((message, index) => (
+          <div
+            key={index}
+            className={`flex ${
+              message.role === "interviewer"
+                ? "justify-start"
+                : "justify-end"
+            }`}
+          >
+            <div
+              className={`max-w-[80%] rounded-lg p-4 ${
+                message.role === "interviewer"
+                  ? "bg-slate-700"
+                  : "bg-sky-600"
+              }`}
+            >
+              <div className="flex items-center mb-2">
+                <Avatar
+                  className={`h-8 w-8 ${
                     message.role === "interviewer"
-                      ? "justify-start"
-                      : "justify-end"
+                      ? "bg-amber-600"
+                      : "bg-emerald-600"
                   }`}
                 >
-                  <div
-                    className={`max-w-[80%] rounded-lg p-4 ${
-                      message.role === "interviewer"
-                        ? "bg-slate-700"
-                        : "bg-sky-600"
-                    }`}
-                  >
-                    <div className="flex items-center mb-2">
-                      <Avatar
-                        className={`h-8 w-8 ${
-                          message.role === "interviewer"
-                            ? "bg-amber-600"
-                            : "bg-emerald-600"
-                        }`}
-                      >
-                        {message.role === "interviewer" ? "I" : "C"}
-                      </Avatar>
-                      <Badge className="ml-2 bg-slate-600">
-                        {message.role === "interviewer"
-                          ? "Interviewer"
-                          : "Candidate"}
-                      </Badge>
-                    </div>
-                    <p>{message.content}</p>
-
-                    {/* Audio player for interviewer */}
-                    {message.role === "interviewer" &&
-                      index === history.length - 1 &&
-                      audioUrl && (
-                        <div className="mt-3 flex items-center space-x-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="bg-slate-600 hover:bg-slate-500"
-                            onClick={toggleAudioPlayback}
-                          >
-                            {isPlaying ? (
-                              <Pause className="h-4 w-4" />
-                            ) : (
-                              <Play className="h-4 w-4" />
-                            )}
-                          </Button>
-                          <div className="text-xs text-slate-300">
-                            {isPlaying ? "Playing audio..." : "Play question"}
-                          </div>
-                        </div>
-                      )}
-
-                    {/* Audio player for candidate history */}
-                    {message.role === "candidate" &&
-                      index === history.length - 1 &&
-                      userAudioUrl && (
-                        <div className="mt-3 flex items-center space-x-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="bg-slate-600 hover:bg-slate-500"
-                            onClick={toggleUserAudioPlayback}
-                          >
-                            <Play className="h-4 w-4" />
-                          </Button>
-                          <div className="text-xs text-slate-300">
-                            Play your response
-                          </div>
-                        </div>
-                      )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Hidden audio elements */}
-            <audio
-              ref={audioRef}
-              src={audioUrl}
-              onPlay={handleAudioPlay}
-              onEnded={handleAudioEnded}
-              className="hidden"
-            />
-            <audio ref={userAudioRef} src={userAudioUrl} className="hidden" />
-
-            {/* Audio playback indicator */}
-            {isPlaying && (
-              <div className="mt-4 text-center">
-                <Badge className="bg-sky-600 animate-pulse">
-                  Playing audio...
+                  {message.role === "interviewer" ? "I" : "C"}
+                </Avatar>
+                <Badge className="ml-2 bg-slate-600">
+                  {message.role === "interviewer"
+                    ? "Interviewer"
+                    : "Candidate"}
                 </Badge>
               </div>
-            )}
-          </CardContent>
-          <CardFooter className="border-t border-slate-700 p-4">
-            <p className="text-xs text-slate-400">
-              Speak clearly and concisely. Your responses are being recorded and
-              analyzed.
-            </p>
-          </CardFooter>
-        </Card>
+              <p>{message.content}</p>
+
+              {/* Audio player for interviewer */}
+              {message.role === "interviewer" &&
+                index === history.length - 1 &&
+                audioUrl && (
+                  <div className="mt-3 flex items-center space-x-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="bg-slate-600 hover:bg-slate-500"
+                      onClick={toggleAudioPlayback}
+                    >
+                      {isPlaying ? (
+                        <Pause className="h-4 w-4" />
+                      ) : (
+                        <Play className="h-4 w-4" />
+                      )}
+                    </Button>
+                    <div className="text-xs text-slate-300">
+                      {isPlaying ? "Playing audio..." : "Play question"}
+                    </div>
+                  </div>
+                )}
+
+              {/* Audio player for candidate history */}
+              {message.role === "candidate" &&
+                index === history.length - 1 &&
+                userAudioUrl && (
+                  <div className="mt-3 flex items-center space-x-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="bg-slate-600 hover:bg-slate-500"
+                      onClick={toggleUserAudioPlayback}
+                    >
+                      <Play className="h-4 w-4" />
+                    </Button>
+                    <div className="text-xs text-slate-300">
+                      Play your response
+                    </div>
+                  </div>
+                )}
+            </div>
+          </div>
+        ))}
       </div>
+
+      {/* Hidden audio elements */}
+      <audio
+        ref={audioRef}
+        src={audioUrl}
+        onPlay={handleAudioPlay}
+        onEnded={handleAudioEnded}
+        className="hidden"
+      />
+      <audio ref={userAudioRef} src={userAudioUrl} className="hidden" />
+
+      {/* Audio playback indicator */}
+      {isPlaying && (
+        <div className="mt-4 text-center">
+          <Badge className="bg-sky-600 animate-pulse">
+            Playing audio...
+          </Badge>
+        </div>
+      )}
+    </CardContent>
+    <CardFooter className="border-t border-slate-700 p-4">
+      <p className="text-xs text-slate-400">
+        Speak clearly and concisely. Your responses are being recorded and
+        analyzed.
+      </p>
+    </CardFooter>
+  </Card>
+</div>
 
       {/* Right side - controls */}
       <div className="w-full md:w-1/3 h-full flex flex-col gap-4">
