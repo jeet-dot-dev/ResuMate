@@ -1,5 +1,3 @@
-
-
 const Anthropic = require("@anthropic-ai/sdk");
 
 const HandleGenQuestion = async (req, res) => {

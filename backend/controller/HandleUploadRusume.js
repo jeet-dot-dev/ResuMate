@@ -1,63 +1,70 @@
-const path = require("path")
-const pdf = require("pdf-parse")
-const fs = require("fs");
-const mammoth = require("mammoth")
-const formdata = require("form-data")
-const HandleUploadResume = async(req,res)=>{
-    try{
-        if(!req.file){
+const path = require("path") // Module to handle and transform file paths
+const pdf = require("pdf-parse") // Library to parse PDF files
+const fs = require("fs") // File system module to read/write files
+const mammoth = require("mammoth") // Library to extract text from DOCX files
+const formdata = require("form-data") // Library to create form-data objects for HTTP requests
+
+// Define an async function to handle resume uploads
+const HandleUploadResume = async (req, res) => {
+    try {
+        // Check if a file was uploaded
+        if (!req.file) {
             return res.status(400).json({
-                error: "no file uploaded"
+                error: "No file uploaded"
             });
         }
 
-        
-        const filePath = req.file.path; // extract file path 
-        const fileExt = path.extname(req.file.originalname).toLowerCase() // extract file extention name ex : pdf,docx 
-        let resumeText = ''
+        // Extract the file path and extension from the uploaded file
+        const filePath = req.file.path; // Path where the file is temporarily stored
+        const fileExt = path.extname(req.file.originalname).toLowerCase(); // Get the file extension and convert to lowercase
+        let resumeText = '' // Variable to store extracted text
 
-        try{
-            // extractin data from pdf using pdf parse
-
-            if(fileExt === '.pdf'){
-                const dataBuffer = fs.readFileSync(filePath) 
-                const pdfData = await pdf(dataBuffer) 
-                resumeText = pdfData.text
+        try {
+            // Extract text from PDF using `pdf-parse`
+            if (fileExt === '.pdf') {
+                const dataBuffer = fs.readFileSync(filePath) // Read file as buffer
+                const pdfData = await pdf(dataBuffer) // Parse PDF data
+                resumeText = pdfData.text // Store extracted text
             }
 
-            // extracting data from docx using mammoth
-            else if(fileExt === '.docx'){
-                const result = await mammoth.extractRawText({path:filePath})
-                resumeText = result.value
-            }
-            
-            // extracting data from plain txt file using fs
-            else if(fileExt ==='.txt'){
-                resumeText = fs.readFileSync(filePath, "utf8")
+            // Extract text from DOCX using `mammoth`
+            else if (fileExt === '.docx') {
+                const result = await mammoth.extractRawText({ path: filePath }) // Extract raw text
+                resumeText = result.value // Store extracted text
             }
 
-            else{
-                resumeText = "unUnsupported file format"
+            // Extract text from plain text files using `fs`
+            else if (fileExt === '.txt') {
+                resumeText = fs.readFileSync(filePath, "utf8") // Read file as UTF-8 string
             }
-        }catch(err){
-            return  res.status(500).json({
-                Error: `Text extraction failed ${err.message}`
-            })
+
+            // Unsupported file format case
+            else {
+                resumeText = "Unsupported file format"
+            }
+        } catch (err) {
+            // Handle errors during text extraction
+            return res.status(500).json({
+                Error: `Text extraction failed: ${err.message}`
+            });
         }
 
-        // Deleting temp files 
+        // Delete the temporary file after extraction
         fs.unlinkSync(filePath);
-        res.json({
-            resumeText: resumeText.substring(0,10000) // adding substring to avoid llm token limits
 
-        })
-    }catch(err){
+        // Send the extracted text back in the response (limited to 10000 characters to avoid token limits)
+        res.json({
+            resumeText: resumeText.substring(0, 10000)
+        });
+
+    } catch (err) {
+        // Handle any unexpected errors
         console.error("Resume processing error", err);
         res.status(500).json({
             error: err.message
-        })
+        });
     }
 }
 
-
+// Export the function to be used in other parts of the application
 module.exports = HandleUploadResume;
