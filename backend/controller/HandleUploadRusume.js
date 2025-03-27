@@ -2,7 +2,7 @@ const path = require("path") // Module to handle and transform file paths
 const pdf = require("pdf-parse") // Library to parse PDF files
 const fs = require("fs") // File system module to read/write files
 const mammoth = require("mammoth") // Library to extract text from DOCX files
-const formdata = require("form-data") // Library to create form-data objects for HTTP requests
+//const formdata = require("form-data") // Library to create form-data objects for HTTP requests
 
 // Define an async function to handle resume uploads
 const HandleUploadResume = async (req, res) => {
