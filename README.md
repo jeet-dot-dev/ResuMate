@@ -10,9 +10,11 @@ Resumate addresses a critical gap in interview preparation for new graduates. Ma
 - Interview anxiety and confidence issues
 - Limited feedback on interview performance
 
-Our solution helps new graduates get comfortable with the interview process, boosting their confidence so they can give fear-free interviews in real-world scenarios.
+ResuMate is an AI-powered interview platform designed to help new graduates master the art of interviewing. By simulating real-world interview scenarios with intelligent feedback, we empower users to build confidence, improve their communication skills, and face real interviews without fear.
+
 
 ## 🛠️ Tech Stack
+
 
 ### Frontend
 - React 19
