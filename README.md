@@ -1,4 +1,4 @@
-# Resumate
+# ResuMate
 
 **Your personal AI interview coach**
 
