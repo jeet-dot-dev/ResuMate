@@ -1,4 +1,4 @@
-# ResuMate
+# ResuMate  🎉🎉  Runner-Up position at the Code for Change hackathon 
 
 **Your personal AI interview coach**
 
